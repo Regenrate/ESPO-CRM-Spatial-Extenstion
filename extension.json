@@ -1,0 +1,19 @@
+{
+  "module": "GeoSpatial",
+  "name": "GeoSpatial",
+  "description": "Adds geospatial geometry field type with Leaflet map editing and parent-entity aggregation maps",
+  "author": "RegenRate",
+  "bundled": true,
+  "bundle": {
+    "requires": ["leaflet-draw"]
+  },
+  "acceptableVersions": [
+    ">=8.0.0"
+  ],
+  "php": [
+    ">=8.1"
+  ],
+  "scripts": [
+    "npx rollup -c rollup.config.mjs"
+  ]
+}

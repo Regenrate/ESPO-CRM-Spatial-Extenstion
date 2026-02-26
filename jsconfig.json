@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "modules/geo-spatial/*": ["src/files/client/custom/modules/geo-spatial/src/*"],
+      "views/*": ["site/client/src/views/*"],
+      "helpers/*": ["site/client/src/helpers/*"],
+      "lib!*": ["site/client/lib/*"]
+    }
+  },
+  "include": [
+    "src/files/client/**/*.js"
+  ]
+}

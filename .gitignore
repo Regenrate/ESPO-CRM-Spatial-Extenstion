@@ -1,0 +1,9 @@
+node_modules/
+site/
+build/
+config.json
+.env.e2e
+*.log
+.DS_Store
+playwright-report/
+test-results/

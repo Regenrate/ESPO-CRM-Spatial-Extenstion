@@ -1,0 +1,47 @@
+{
+  "name": "espocrm-ext-geo-spatial",
+  "version": "0.1.9",
+  "description": "Geospatial field type extension for EspoCRM with Leaflet map editing and aggregation panels",
+  "scripts": {
+    "sa": "node build --copy && node build --composer-install && php site/vendor/bin/phpstan",
+    "unit-tests": "node build --copy && node build --composer-install && cd site && php vendor/bin/phpunit tests/unit/Espo/Modules/GeoSpatial",
+    "integration-tests": "node build --copy && node build --composer-install && cd site && php vendor/bin/phpunit tests/integration/Espo/Modules/GeoSpatial",
+    "copy": "node build --copy",
+    "composer-install": "node build --composer-install",
+    "sync": "node build --copy && node build --composer-install",
+    "extension": "node build --extension",
+    "clear-cache": "php site/clear_cache.php",
+    "rebuild": "node build --rebuild",
+    "all": "node build --all",
+    "prepare-test": "node build --prepare-test",
+    "bundle-libs": "npx rollup -c rollup.config.mjs",
+    "e2e:install-browsers": "playwright install chromium",
+    "e2e:docker:up": "docker compose up -d --build db app",
+    "e2e:docker:down": "docker compose down -v",
+    "e2e:docker:logs": "docker compose logs -f app db",
+    "e2e:prepare-installed:local": "node scripts/e2e/prepare-installed-extension.mjs",
+    "e2e:prepare-installed": "node scripts/e2e/prepare-installed-extension-docker.mjs",
+    "e2e:test": "playwright test",
+    "e2e:test:headed": "playwright test --headed",
+    "e2e:packaged:local": "npm run e2e:prepare-installed:local && npm run e2e:test",
+    "e2e:packaged": "npm run e2e:prepare-installed && npm run e2e:test"
+  },
+  "type": "module",
+  "author": "RegenRate",
+  "dependencies": {
+    "espo-extension-tools": "github:espocrm/extension-tools#0.3.6",
+    "fs-extra": "^9.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
+    "rollup": "^4.0.0"
+  },
+  "engines": {
+    "npm": ">=8",
+    "node": ">=18"
+  }
+}

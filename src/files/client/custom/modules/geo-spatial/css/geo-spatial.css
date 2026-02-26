@@ -1,0 +1,58 @@
+.geo-spatial-map-container {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.geo-spatial-map-container .leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.geo-spatial-map-detail {
+    height: 350px;
+}
+
+.geo-spatial-map-edit {
+    height: 400px;
+}
+
+.geo-spatial-map-panel {
+    height: 450px;
+}
+
+.geo-spatial-geometry-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.85em;
+}
+
+.geo-spatial-geometry-badge .fas {
+    font-size: 0.9em;
+}
+
+.geo-spatial-popup-link {
+    font-weight: 600;
+    color: #2196f3;
+    text-decoration: none;
+}
+
+.geo-spatial-popup-link:hover {
+    text-decoration: underline;
+}
+
+.geo-spatial-empty-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #999;
+    font-style: italic;
+}

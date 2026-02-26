@@ -1,0 +1,67 @@
+{
+    "view": "modules/geo-spatial/views/fields/geometry",
+    "notCreatable": false,
+    "params": [
+        {
+            "name": "required",
+            "type": "bool",
+            "default": false
+        },
+        {
+            "name": "geometryTypes",
+            "type": "multiEnum",
+            "options": ["Point", "LineString", "Polygon"],
+            "default": ["Point", "LineString", "Polygon"]
+        },
+        {
+            "name": "defaultLatitude",
+            "type": "float",
+            "default": 51.505,
+            "tooltip": true
+        },
+        {
+            "name": "defaultLongitude",
+            "type": "float",
+            "default": -0.09,
+            "tooltip": true
+        },
+        {
+            "name": "defaultZoom",
+            "type": "int",
+            "default": 13,
+            "min": 1,
+            "max": 20
+        },
+        {
+            "name": "mapHeight",
+            "type": "int",
+            "default": 400,
+            "min": 200,
+            "max": 800
+        },
+        {
+            "name": "audited",
+            "type": "bool"
+        },
+        {
+            "name": "readOnly",
+            "type": "bool"
+        }
+    ],
+    "fieldDefs": {
+        "type": "text",
+        "dbType": "mediumtext"
+    },
+    "validationList": [
+        "required",
+        "valid"
+    ],
+    "mandatoryValidationList": [
+        "valid"
+    ],
+    "filter": false,
+    "textFilter": false,
+    "notMergeable": true,
+    "personalData": false,
+    "validatorClassName": "Espo\\Modules\\GeoSpatial\\Classes\\FieldValidators\\GeometryType"
+}

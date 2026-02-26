@@ -1,0 +1,24 @@
+{
+    "labels": {
+        "Geo Aggregate Map": "Geo Aggregate Map",
+        "No geometry defined": "No geometry defined",
+        "No geometries found": "No geometries found in related records"
+    },
+    "fields": {
+        "geometry": "Geometry"
+    },
+    "tooltips": {
+        "defaultLatitude": "Default map center latitude (decimal degrees)",
+        "defaultLongitude": "Default map center longitude (decimal degrees)",
+        "defaultZoom": "Default map zoom level (1-20)",
+        "mapHeight": "Map container height in pixels",
+        "geometryTypes": "Allowed geometry types for this field"
+    },
+    "options": {
+        "geometryTypes": {
+            "Point": "Point",
+            "LineString": "Line",
+            "Polygon": "Polygon"
+        }
+    }
+}

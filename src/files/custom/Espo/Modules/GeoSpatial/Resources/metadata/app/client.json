@@ -1,0 +1,12 @@
+{
+    "cssList": [
+        "__APPEND__",
+        "client/custom/modules/geo-spatial/css/leaflet.css",
+        "client/custom/modules/geo-spatial/css/leaflet-draw.css",
+        "client/custom/modules/geo-spatial/css/geo-spatial.css"
+    ],
+    "scriptList": [
+        "__APPEND__",
+        "client/custom/modules/geo-spatial/lib/init.js"
+    ]
+}

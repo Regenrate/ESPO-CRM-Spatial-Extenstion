@@ -1,0 +1,10 @@
+{
+    "leaflet": {
+        "path": "client/custom/modules/geo-spatial/lib/leaflet.js",
+        "exportsTo": "window",
+        "exportsAs": "L"
+    },
+    "leaflet-draw": {
+        "path": "client/custom/modules/geo-spatial/lib/leaflet-draw.js"
+    }
+}
