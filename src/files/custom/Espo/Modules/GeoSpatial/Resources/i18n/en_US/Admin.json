@@ -1,5 +1,6 @@
 {
     "fieldTypes": {
-        "geometry": "Geometry"
+        "geometry": "Geometry",
+        "geometryAggregate": "Geometry Aggregate Map"
     }
 }

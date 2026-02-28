@@ -5,14 +5,16 @@
         "No geometries found": "No geometries found in related records"
     },
     "fields": {
-        "geometry": "Geometry"
+        "geometry": "Geometry",
+        "geometryAggregate": "Geometry Aggregate Map"
     },
     "tooltips": {
         "defaultLatitude": "Default map center latitude (decimal degrees)",
         "defaultLongitude": "Default map center longitude (decimal degrees)",
         "defaultZoom": "Default map zoom level (1-20)",
         "mapHeight": "Map container height in pixels",
-        "geometryTypes": "Allowed geometry types for this field"
+        "geometryTypes": "Allowed geometry types for this field",
+        "link": "The relationship link name (e.g. 'sites') pointing to the entity with geometry fields"
     },
     "options": {
         "geometryTypes": {

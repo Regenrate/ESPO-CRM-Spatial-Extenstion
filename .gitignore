@@ -5,5 +5,9 @@ config.json
 .env.e2e
 *.log
 .DS_Store
+
+# Playwright
 playwright-report/
+playwright/.cache/
 test-results/
+.playwright-cli/

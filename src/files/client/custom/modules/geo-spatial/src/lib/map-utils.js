@@ -18,13 +18,13 @@ if (L.Icon && L.Icon.Default) {
 
 const GEOMETRY_STYLES = {
     default: {
-        color: '#3388ff',
+        color: 'rgb(255, 159, 159)',
         weight: 3,
         opacity: 0.8,
         fillOpacity: 0.25,
     },
     highlight: {
-        color: '#ff7800',
+        color: 'rgb(255, 159, 159)',
         weight: 4,
         opacity: 1.0,
         fillOpacity: 0.35,

@@ -1,6 +1,6 @@
 {
   "name": "espocrm-ext-geo-spatial",
-  "version": "0.1.9",
+  "version": "0.1.12",
   "description": "Geospatial field type extension for EspoCRM with Leaflet map editing and aggregation panels",
   "scripts": {
     "sa": "node build --copy && node build --composer-install && php site/vendor/bin/phpstan",
