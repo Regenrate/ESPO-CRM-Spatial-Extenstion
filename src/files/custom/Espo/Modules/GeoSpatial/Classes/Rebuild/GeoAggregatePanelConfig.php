@@ -49,14 +49,17 @@ class GeoAggregatePanelConfig implements RebuildAction
                     continue;
                 }
 
-                $geometryFields = $geometryEntityMap[$foreignEntity];
+                $geometryConfig = $geometryEntityMap[$foreignEntity];
+                $geometryFields = $geometryConfig['fields'];
                 $panelName = self::PANEL_PREFIX . $linkName;
 
                 $this->registerPanel(
                     $parentEntityType,
                     $panelName,
                     $linkName,
-                    $geometryFields
+                    $geometryFields,
+                    (bool) ($geometryConfig['droneRestrictionsEnabled'] ?? false),
+                    (bool) ($geometryConfig['droneRestrictionsDefaultOn'] ?? false)
                 );
             }
         }
@@ -64,7 +67,7 @@ class GeoAggregatePanelConfig implements RebuildAction
 
     /**
      * @param array<string, array<string, mixed>> $entityDefsMap
-     * @return array<string, string[]> Entity type => list of geometry field names
+     * @return array<string, array<string, mixed>>
      */
     private function findEntitiesWithGeometryFields(array $entityDefsMap): array
     {
@@ -81,10 +84,22 @@ class GeoAggregatePanelConfig implements RebuildAction
                 }
 
                 if (!isset($result[$entityType])) {
-                    $result[$entityType] = [];
+                    $result[$entityType] = [
+                        'fields' => [],
+                        'droneRestrictionsEnabled' => false,
+                        'droneRestrictionsDefaultOn' => false,
+                    ];
                 }
 
-                $result[$entityType][] = $fieldName;
+                $result[$entityType]['fields'][] = $fieldName;
+
+                if (($fieldDef['droneRestrictionsEnabled'] ?? false) === true) {
+                    $result[$entityType]['droneRestrictionsEnabled'] = true;
+                }
+
+                if (($fieldDef['droneRestrictionsDefaultOn'] ?? false) === true) {
+                    $result[$entityType]['droneRestrictionsDefaultOn'] = true;
+                }
             }
         }
 
@@ -98,15 +113,21 @@ class GeoAggregatePanelConfig implements RebuildAction
         string $parentEntityType,
         string $panelName,
         string $linkName,
-        array $geometryFields
+        array $geometryFields,
+        bool $droneRestrictionsEnabled,
+        bool $droneRestrictionsDefaultOn
     ): void {
         $existing = $this->metadata->get(
             ['clientDefs', $parentEntityType, 'bottomPanels', 'detail']
         ) ?? [];
 
+        $existingHasPanel = false;
+
         foreach ($existing as $panel) {
             if (is_array($panel) && ($panel['name'] ?? null) === $panelName) {
-                return;
+                $existingHasPanel = true;
+
+                break;
             }
         }
 
@@ -118,6 +139,8 @@ class GeoAggregatePanelConfig implements RebuildAction
             'options' => [
                 'link' => $linkName,
                 'geometryFields' => $geometryFields,
+                'droneRestrictionsEnabled' => $droneRestrictionsEnabled,
+                'droneRestrictionsDefaultOn' => $droneRestrictionsDefaultOn,
             ],
         ];
 
@@ -129,10 +152,23 @@ class GeoAggregatePanelConfig implements RebuildAction
 
         $bottomPanels = $customArray['bottomPanels']['detail'] ?? [];
 
-        foreach ($bottomPanels as $p) {
+        foreach ($bottomPanels as $i => $p) {
             if (is_array($p) && ($p['name'] ?? null) === $panelName) {
+                $bottomPanels[$i] = array_merge($p, $panelDef);
+                $customArray['bottomPanels'] = ['detail' => $bottomPanels];
+
+                $this->metadata->saveCustom(
+                    'clientDefs',
+                    $parentEntityType,
+                    (object) json_decode(json_encode($customArray))
+                );
+
                 return;
             }
+        }
+
+        if ($existingHasPanel) {
+            return;
         }
 
         if (empty($bottomPanels)) {

@@ -6,7 +6,11 @@
     },
     "fields": {
         "geometry": "Geometry",
-        "geometryAggregate": "Geometry Aggregate Map"
+        "geometryAggregate": "Geometry Aggregate Map",
+        "droneRestrictionsEnabled": "Drone restriction overlay",
+        "droneRestrictionsDefaultOn": "Show overlay by default",
+        "droneRestrictionsStorageField": "Restriction snapshot field",
+        "droneRestrictionsStoreByDefault": "Store snapshot by default"
     },
     "tooltips": {
         "defaultLatitude": "Default map center latitude (decimal degrees)",
@@ -14,7 +18,11 @@
         "defaultZoom": "Default map zoom level (1-20)",
         "mapHeight": "Map container height in pixels",
         "geometryTypes": "Allowed geometry types for this field",
-        "link": "The relationship link name (e.g. 'sites') pointing to the entity with geometry fields"
+        "link": "The relationship link name (e.g. 'sites') pointing to the entity with geometry fields",
+        "droneRestrictionsEnabled": "Adds the GeoPlateforme/DGAC drone restriction map layer. When enabled, users can inspect nearby restrictions while panning the map, click the overlay for live restriction details, and run polygon-overlap checks in edit mode.",
+        "droneRestrictionsDefaultOn": "Turns the drone restriction layer on automatically when the map opens. If disabled, users can still enable it manually from the map layer control.",
+        "droneRestrictionsStorageField": "Optional text field on the same entity where saved restriction snapshots are written. Use a separate Text field such as droneRestrictionSnapshot. The geometry field remains pure GeoJSON.",
+        "droneRestrictionsStoreByDefault": "Pre-checks Store snapshot in edit mode. On save, the current polygon is checked against the live restriction service and only overlapping restrictions are stored in the configured snapshot field."
     },
     "options": {
         "geometryTypes": {

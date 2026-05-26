@@ -149,7 +149,7 @@ async function setupEntityAndFields() {
             linkType: 'oneToMany',
             entity: 'Account',
             entityForeign: 'CParcel',
-            link: 'cCParcels',
+            link: accountParcelLink,
             linkForeign: 'account',
             label: 'Parcels',
             labelForeign: 'Account',
@@ -158,11 +158,13 @@ async function setupEntityAndFields() {
         // already exists
     }
 
+    accountParcelLink = resolveAccountParcelLink();
+
     try {
         await apiRequest('POST', 'Admin/fieldManager/Account', {
             name: 'parcelMap',
             type: 'geometryAggregate',
-            link: 'cCParcels',
+            link: accountParcelLink,
             mapHeight: 400,
             defaultZoom: 3,
         });
@@ -171,7 +173,7 @@ async function setupEntityAndFields() {
             'PUT', 'Admin/fieldManager/Account/parcelMap',
             {
                 type: 'geometryAggregate',
-                link: 'cCParcels',
+                link: accountParcelLink,
                 mapHeight: 400,
                 defaultZoom: 3,
             }
@@ -233,6 +235,28 @@ async function rebuild() {
 
 let testAccountId;
 let testParcelIds = [];
+let accountParcelLink = 'cCParcels';
+
+function resolveAccountParcelLink() {
+    const accountMetadataPath = path.join(
+        projectRoot, 'site', 'custom', 'Espo', 'Custom',
+        'Resources', 'metadata', 'entityDefs', 'Account.json'
+    );
+
+    if (!fs.existsSync(accountMetadataPath)) {
+        return accountParcelLink;
+    }
+
+    const metadata = JSON.parse(fs.readFileSync(accountMetadataPath, 'utf8'));
+
+    for (const [linkName, linkDef] of Object.entries(metadata.links || {})) {
+        if (linkDef.entity === 'CParcel' && linkDef.type === 'hasMany') {
+            return linkName;
+        }
+    }
+
+    return accountParcelLink;
+}
 
 test.describe('Geometry Aggregate Map', () => {
 
@@ -318,7 +342,7 @@ test.describe('Geometry Aggregate Map', () => {
         const apiPromise = page.waitForResponse(
             (response) =>
                 response.url().includes(
-                    `/Account/${testAccountId}/cCParcels`
+                    `/Account/${testAccountId}/${accountParcelLink}`
                 ) && response.status() === 200
         );
 

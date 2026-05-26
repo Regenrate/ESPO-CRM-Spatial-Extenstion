@@ -58,6 +58,17 @@ export default class GeometryAggregateFieldView extends BaseFieldView {
             || this._getFieldParam('link')
             || null;
 
+        this._droneRestrictionsEnabled =
+            this.params.droneRestrictionsEnabled === true ||
+            this.params.droneRestrictionsEnabled === 'true' ||
+            this._getFieldParam('droneRestrictionsEnabled') === true ||
+            this._getFieldParam('droneRestrictionsEnabled') === 'true';
+        this._droneRestrictionsDefaultOn =
+            this.params.droneRestrictionsDefaultOn === true ||
+            this.params.droneRestrictionsDefaultOn === 'true' ||
+            this._getFieldParam('droneRestrictionsDefaultOn') === true ||
+            this._getFieldParam('droneRestrictionsDefaultOn') === 'true';
+
         this._geometryFields = this._detectGeometryFields();
     }
 
@@ -295,6 +306,12 @@ export default class GeometryAggregateFieldView extends BaseFieldView {
         this._map = MapUtils.createMap(mapEl, {
             center: [51.505, -0.09],
             zoom: defaultZoom,
+        });
+
+        MapUtils.addDroneRestrictionsControl(this._map, {
+            enabled: this._droneRestrictionsEnabled,
+            defaultOn: this._droneRestrictionsDefaultOn,
+            label: 'Drone restrictions',
         });
 
         const featureCollection = {

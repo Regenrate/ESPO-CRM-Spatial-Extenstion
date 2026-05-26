@@ -20,6 +20,18 @@
             "default": 3,
             "min": 1,
             "max": 20
+        },
+        {
+            "name": "droneRestrictionsEnabled",
+            "type": "bool",
+            "default": false,
+            "tooltip": true
+        },
+        {
+            "name": "droneRestrictionsDefaultOn",
+            "type": "bool",
+            "default": false,
+            "tooltip": true
         }
     ],
     "fieldDefs": {

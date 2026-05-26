@@ -35,6 +35,12 @@ export default class GeoAggregateMapPanel extends BottomPanelView {
 
         this._link = panelOptions.link || null;
         this._geometryFields = panelOptions.geometryFields || [];
+        this._droneRestrictionsEnabled =
+            panelOptions.droneRestrictionsEnabled === true ||
+            panelOptions.droneRestrictionsEnabled === 'true';
+        this._droneRestrictionsDefaultOn =
+            panelOptions.droneRestrictionsDefaultOn === true ||
+            panelOptions.droneRestrictionsDefaultOn === 'true';
     }
 
     afterRender() {
@@ -159,6 +165,12 @@ export default class GeoAggregateMapPanel extends BottomPanelView {
         this._map = MapUtils.createMap(mapEl, {
             center: [51.505, -0.09],
             zoom: 3,
+        });
+
+        MapUtils.addDroneRestrictionsControl(this._map, {
+            enabled: this._droneRestrictionsEnabled,
+            defaultOn: this._droneRestrictionsDefaultOn,
+            label: 'Drone restrictions',
         });
 
         const featureCollection = {

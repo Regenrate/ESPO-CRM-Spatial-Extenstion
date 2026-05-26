@@ -184,6 +184,10 @@ Alternatively, set up a file watcher in your IDE to run `node build --copy-file 
 | **Default Longitude** | Map center longitude when no geometry exists yet | -0.09 |
 | **Default Zoom** | Initial map zoom level (1 = world, 20 = building) | 13 |
 | **Map Height** | Height of the map container in pixels | 400 |
+| **Drone Restriction Overlay** | Enables the GeoPlateforme/DGAC restriction layer. Users can pan the map to inspect nearby restrictions, click the overlay for live details, and run polygon-overlap checks in edit mode. | false |
+| **Show Overlay by Default** | Displays the drone restriction layer as soon as the map opens. If disabled, users can still enable it from the map layer control. | false |
+| **Restriction Snapshot Field** | Name of a separate Text field on the same entity where saved lookup snapshots are stored, e.g. `droneRestrictionSnapshot`. The geometry field remains pure GeoJSON. | empty |
+| **Store Snapshot by Default** | Pre-checks **Store snapshot** in edit mode. On save, the current polygon is checked against the live restriction service and only overlapping restrictions are written to the snapshot field. | false |
 | **Required** | Whether the field must be filled before saving | false |
 | **Read Only** | Whether the geometry can be edited | false |
 | **Audited** | Track changes to this field in the audit log | false |
@@ -199,6 +203,20 @@ Alternatively, set up a file watcher in your IDE to run `node build --copy-file 
 - **Deleting:** Click the trash icon in the toolbar, then click the geometry you want to remove. Confirm with "Save" in the toolbar.
 - **Saving:** The geometry is saved when you click the record's **Save** button. The map state is serialized as GeoJSON and stored in the database.
 
+### Drone Restriction Overlay
+
+The drone restriction options connect a geometry field to the public GeoPlateforme/DGAC drone restriction services. They are optional and can be enabled per geometry field.
+
+**Drone Restriction Overlay** adds a toggleable restriction tile layer to the map. Users can pan and zoom normally to inspect restrictions near the drawn geometry. When the overlay is visible, clicking the map performs a live lookup at that point and shows details such as the flight limit and notes in a popup.
+
+**Show Overlay by Default** controls the initial state of that layer. Leave it off if users should opt in manually from the layer control; turn it on if drone restrictions are important for most records of that entity.
+
+**Restriction Snapshot Field** names a separate Text field on the same entity where saved lookup results should go. Create this field separately first, then enter its field name here. Keeping this separate avoids mixing changing regulatory data into the geometry GeoJSON.
+
+**Store Snapshot by Default** pre-checks **Store snapshot** in edit mode. When a record is saved, the extension runs a live polygon-overlap lookup and stores only restrictions that overlap the current polygon. The saved value is a timestamped snapshot, while the map overlay and click popups remain live.
+
+Snapshots are only created for area geometries such as Polygons. Points and lines can still use the live map-click lookup, but they do not produce polygon-overlap snapshots.
+
 ### Viewing Geometry
 
 - **Detail view:** A read-only map displays the stored geometry, auto-zoomed to fit the shape.
@@ -207,6 +225,8 @@ Alternatively, set up a file watcher in your IDE to run `node build --copy-file 
 ### Automatic Aggregation Map Panel
 
 When a parent entity has a **one-to-many** (or **has-many**) relationship to child entities that contain geometry fields, the extension automatically creates a map panel on the parent's detail view.
+
+If a child geometry field has the drone restriction overlay enabled, the generated aggregate panel also exposes the overlay toggle after rebuild.
 
 **How it works:**
 

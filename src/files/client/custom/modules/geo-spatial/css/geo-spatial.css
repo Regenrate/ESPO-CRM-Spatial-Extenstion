@@ -23,6 +23,69 @@
     height: 450px;
 }
 
+.geo-spatial-drone-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    min-height: 26px;
+}
+
+.geo-spatial-drone-store {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.geo-spatial-drone-status {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.geo-spatial-drone-popup {
+    max-width: 280px;
+}
+
+.geo-spatial-drone-popup ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+}
+
+.geo-spatial-drone-popup li + li {
+    margin-top: 8px;
+}
+
+.geo-spatial-drone-snapshot {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.geo-spatial-drone-snapshot-title {
+    font-weight: 600;
+}
+
+.geo-spatial-drone-snapshot-meta,
+.geo-spatial-drone-snapshot-empty {
+    margin-top: 2px;
+    color: #777;
+    font-size: 0.9em;
+}
+
+.geo-spatial-drone-snapshot-list {
+    margin: 8px 0 0;
+    padding-left: 18px;
+}
+
+.geo-spatial-drone-snapshot-list li + li {
+    margin-top: 8px;
+}
+
 .geo-spatial-geometry-badge {
     display: inline-flex;
     align-items: center;

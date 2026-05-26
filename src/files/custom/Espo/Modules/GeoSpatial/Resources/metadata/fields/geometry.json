@@ -40,6 +40,29 @@
             "max": 800
         },
         {
+            "name": "droneRestrictionsEnabled",
+            "type": "bool",
+            "default": false,
+            "tooltip": true
+        },
+        {
+            "name": "droneRestrictionsDefaultOn",
+            "type": "bool",
+            "default": false,
+            "tooltip": true
+        },
+        {
+            "name": "droneRestrictionsStorageField",
+            "type": "varchar",
+            "tooltip": true
+        },
+        {
+            "name": "droneRestrictionsStoreByDefault",
+            "type": "bool",
+            "default": false,
+            "tooltip": true
+        },
+        {
             "name": "audited",
             "type": "bool"
         },
