@@ -5,6 +5,8 @@ import path from 'node:path';
 const adminUsername = process.env.ESPO_E2E_ADMIN_USERNAME || 'admin';
 const adminPassword = process.env.ESPO_E2E_ADMIN_PASSWORD || '1';
 const baseURL = process.env.ESPO_E2E_BASE_URL || 'http://127.0.0.1:8080';
+const keepRecords = process.env.ESPO_E2E_KEEP_RECORDS === '1' ||
+    process.env.ESPO_E2E_KEEP_RECORDS === 'true';
 const projectRoot = process.cwd();
 
 const POLYGON_GEOJSON = JSON.stringify({
@@ -179,6 +181,26 @@ async function setupEntityAndFields() {
             }
         ).catch(() => {});
     }
+
+    try {
+        await apiRequest('POST', 'Admin/fieldManager/Account', {
+            name: 'parcelDownload',
+            type: 'geoDataDownload',
+            link: accountParcelLink,
+            geometryField: 'parcelGeometry',
+            buttonLabel: 'Download KML',
+        });
+    } catch {
+        await apiRequest(
+            'PUT', 'Admin/fieldManager/Account/parcelDownload',
+            {
+                type: 'geoDataDownload',
+                link: accountParcelLink,
+                geometryField: 'parcelGeometry',
+                buttonLabel: 'Download KML',
+            }
+        ).catch(() => {});
+    }
 }
 
 function setupLayouts() {
@@ -216,6 +238,7 @@ function setupLayouts() {
             label: 'Parcel Map',
             rows: [
                 [{name: 'parcelMap', fullWidth: true}],
+                [{name: 'parcelDownload', fullWidth: true}],
             ],
         },
     ]);
@@ -287,6 +310,10 @@ test.describe('Geometry Aggregate Map', () => {
     });
 
     test.afterAll(async () => {
+        if (keepRecords) {
+            return;
+        }
+
         for (const id of testParcelIds) {
             await apiRequest('DELETE', `CParcel/${id}`).catch(() => {});
         }
@@ -316,10 +343,12 @@ test.describe('Geometry Aggregate Map', () => {
         const parcelMapSection = page.getByText('Parcel Map');
         await expect(parcelMapSection).toBeVisible({timeout: 15_000});
 
-        const mapContainer = page.locator('.geo-spatial-map-container');
+        const mapContainer = page.locator('.geo-spatial-map-detail');
         await expect(mapContainer.first()).toBeVisible({timeout: 15_000});
 
-        const emptyMessage = page.locator('.geo-spatial-empty-map');
+        const emptyMessage = page.locator(
+            '.geo-spatial-map-detail + .geo-spatial-empty-map'
+        );
         await expect(emptyMessage.first()).toBeHidden();
 
         const leafletMap = page.locator('.leaflet-container');
@@ -356,6 +385,36 @@ test.describe('Geometry Aggregate Map', () => {
         const names = data.list.map((r) => r.name);
         expect(names).toContain('E2E North Field');
         expect(names).toContain('E2E Well Point');
+    });
+
+    test('account detail view downloads related parcel geometries as KML', async ({page}) => {
+        await login(page);
+        await navigateTo(page, `Account/view/${testAccountId}`);
+
+        const downloadButton = page.locator('.geo-spatial-download-kml');
+        await expect(downloadButton).toBeVisible({timeout: 15_000});
+
+        const downloadPromise = page.waitForEvent('download');
+        await downloadButton.click();
+
+        const download = await downloadPromise;
+        const filename = download.suggestedFilename();
+
+        expect(filename).toMatch(/^Account-E2E-Test-Farm-.+-parcels\.kml$/);
+
+        const downloadPath = await download.path();
+        const content = fs.readFileSync(downloadPath, 'utf8');
+
+        expect(content).toContain('<kml xmlns="http://www.opengis.net/kml/2.2">');
+        expect(content).toContain('<Document>');
+        expect(content).toContain('<Placemark>');
+        expect(content).toContain('<name>E2E North Field</name>');
+        expect(content).toContain('<name>E2E Well Point</name>');
+        expect(content).toContain('<Polygon>');
+        expect(content).toContain('<Point>');
+        expect(content).toContain(`#CParcel/view/${testParcelIds[0]}`);
+        expect(content).toContain(`#CParcel/view/${testParcelIds[1]}`);
+        expect(content).toContain('-0.095,51.508');
     });
 
     test('parcel geometry badge shows in list view', async ({page}) => {

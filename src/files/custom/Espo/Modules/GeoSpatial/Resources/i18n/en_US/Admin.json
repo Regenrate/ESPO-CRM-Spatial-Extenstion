@@ -1,15 +1,20 @@
 {
     "fieldTypes": {
         "geometry": "Geometry",
-        "geometryAggregate": "Geometry Aggregate Map"
+        "geometryAggregate": "Geometry Aggregate Map",
+        "geoDataDownload": "GeoData Download"
     },
     "fields": {
+        "geometryField": "Geometry field",
+        "buttonLabel": "Button label",
         "droneRestrictionsEnabled": "Drone restriction overlay",
         "droneRestrictionsDefaultOn": "Show overlay by default",
         "droneRestrictionsStorageField": "Restriction snapshot field",
         "droneRestrictionsStoreByDefault": "Store snapshot by default"
     },
     "tooltips": {
+        "geometryField": "The geometry field on related records to export, e.g. parcelGeometry.",
+        "buttonLabel": "Text shown on the download action button.",
         "droneRestrictionsEnabled": "Adds the GeoPlateforme/DGAC drone restriction map layer. When enabled, users can inspect nearby restrictions while panning the map, click the overlay for live restriction details, and run polygon-overlap checks in edit mode.",
         "droneRestrictionsDefaultOn": "Turns the drone restriction layer on automatically when the map opens. If disabled, users can still enable it manually from the map layer control.",
         "droneRestrictionsStorageField": "Optional text field on the same entity where saved restriction snapshots are written. Use a separate Text field such as droneRestrictionSnapshot. The geometry field remains pure GeoJSON.",

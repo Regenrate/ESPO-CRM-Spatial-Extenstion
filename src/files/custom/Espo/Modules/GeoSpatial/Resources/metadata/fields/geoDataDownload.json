@@ -1,0 +1,32 @@
+{
+    "view": "modules/geo-spatial/views/fields/geo-data-download",
+    "notCreatable": false,
+    "params": [
+        {
+            "name": "link",
+            "type": "varchar",
+            "tooltip": true
+        },
+        {
+            "name": "geometryField",
+            "type": "varchar",
+            "tooltip": true
+        },
+        {
+            "name": "buttonLabel",
+            "type": "varchar",
+            "default": "Download KML",
+            "tooltip": true
+        }
+    ],
+    "fieldDefs": {
+        "type": "varchar",
+        "notStorable": true,
+        "readOnly": true
+    },
+    "filter": false,
+    "textFilter": false,
+    "notMergeable": true,
+    "personalData": false,
+    "notSortable": true
+}
